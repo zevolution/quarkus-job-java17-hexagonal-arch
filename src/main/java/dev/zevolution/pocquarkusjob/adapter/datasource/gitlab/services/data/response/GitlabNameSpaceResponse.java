@@ -2,6 +2,7 @@ package dev.zevolution.pocquarkusjob.adapter.datasource.gitlab.services.data.res
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import org.apache.commons.lang3.StringUtils;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GitlabNameSpaceResponse {
@@ -75,6 +76,9 @@ public class GitlabNameSpaceResponse {
 
     public GitlabNameSpaceResponse setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+        if (StringUtils.isNotBlank(this.avatarUrl)) {
+            this.avatarUrl = "https://gitlab.com" + this.avatarUrl;
+        }
         return this;
     }
 
