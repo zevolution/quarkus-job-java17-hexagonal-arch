@@ -22,7 +22,7 @@ import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @ApplicationScoped
-@Named("GithubDataSource")
+@Named("GithubCodeRepo")
 public class GithubDataSource implements SoftwareRepository {
 
     private final GithubUsersRESTClient githubUsersRESTClient;

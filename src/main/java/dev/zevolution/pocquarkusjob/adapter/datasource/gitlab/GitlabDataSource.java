@@ -14,7 +14,7 @@ import javax.ws.rs.NotSupportedException;
 import java.util.List;
 
 @ApplicationScoped
-@Named("GitlabDataSource")
+@Named("GitlabCodeRepo")
 public class GitlabDataSource implements SoftwareRepository {
 
     private final GitlabUsersRESTClient gitlabUsersRESTClient;
