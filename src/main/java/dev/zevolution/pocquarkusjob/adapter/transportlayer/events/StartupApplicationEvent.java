@@ -41,7 +41,7 @@ public class StartupApplicationEvent {
     void onStart(@Observes StartupEvent ev) {
         LOGGER.info("The application is starting...");
 
-        var authorsUserName = new String[]{"zevolution"};
+        var authorsUserName = new String[]{"zevolution", "joselsb"};
         var authors = Stream.of(authorsUserName).map(Author::new).toList();
 
         try {
@@ -60,7 +60,7 @@ public class StartupApplicationEvent {
                 ).orTimeout(30, SECONDS).join();
             });
             var end = LocalTime.now();
-            LOGGER.info("Time to get author repositories from Gitlab and Github to save into MongoDB: {} millis", Duration.between(start, end).toMillis());
+            LOGGER.info("Time to get author repositories from Gitlab, Github and Bitbucket to save into MongoDB: {} millis", Duration.between(start, end).toMillis());
         } catch(Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
