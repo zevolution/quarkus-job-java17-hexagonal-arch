@@ -3,7 +3,6 @@ package dev.zevolution.pocquarkusjob.adapter.datasource.github;
 import dev.zevolution.pocquarkusjob.adapter.datasource.github.services.mappers.AuthorMapper;
 import dev.zevolution.pocquarkusjob.adapter.datasource.github.services.mappers.SoftwareMapper;
 import dev.zevolution.pocquarkusjob.adapter.datasource.github.services.restclients.GithubUsersRESTClient;
-import dev.zevolution.pocquarkusjob.internal.annotations.GithubRepository;
 import dev.zevolution.pocquarkusjob.internal.entities.Author;
 import dev.zevolution.pocquarkusjob.internal.entities.Software;
 import dev.zevolution.pocquarkusjob.internal.repositories.SoftwareRepository;
@@ -11,6 +10,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.NotSupportedException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,8 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import static java.util.concurrent.CompletableFuture.runAsync;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-@GithubRepository
 @ApplicationScoped
+@Named("GithubDataSource")
 public class GithubDataSource implements SoftwareRepository {
 
     private final GithubUsersRESTClient githubUsersRESTClient;

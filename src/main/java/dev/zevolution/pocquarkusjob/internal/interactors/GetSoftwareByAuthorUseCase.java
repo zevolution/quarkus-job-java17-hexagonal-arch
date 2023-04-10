@@ -1,7 +1,5 @@
 package dev.zevolution.pocquarkusjob.internal.interactors;
 
-import dev.zevolution.pocquarkusjob.internal.annotations.GithubRepository;
-import dev.zevolution.pocquarkusjob.internal.annotations.GitlabRepository;
 import dev.zevolution.pocquarkusjob.internal.entities.Author;
 import dev.zevolution.pocquarkusjob.internal.entities.Software;
 import dev.zevolution.pocquarkusjob.internal.repositories.SoftwareRepository;
@@ -9,6 +7,7 @@ import dev.zevolution.pocquarkusjob.internal.repositories.SoftwareRepository;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.literal.NamedLiteral;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -21,19 +20,13 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class GetSoftwareByAuthorUseCase {
 
     private final ExecutorService executor;
-    private SoftwareRepository gitlabRepository;
-    private SoftwareRepository githubRepository;
+    private final SoftwareRepository gitlabRepository;
+    private final SoftwareRepository githubRepository;
 
     public GetSoftwareByAuthorUseCase(@Any Instance<SoftwareRepository> softwareRepository) {
         this.executor = Executors.newFixedThreadPool(5);
-
-        softwareRepository.forEach(repository -> {
-            if (repository.getClass().getSuperclass().getDeclaredAnnotation(GitlabRepository.class) != null) {
-                this.gitlabRepository = repository;
-            } else if (repository.getClass().getSuperclass().getDeclaredAnnotation(GithubRepository.class) != null) {
-                this.githubRepository = repository;
-            }
-        });
+        this.gitlabRepository = softwareRepository.select(NamedLiteral.of("GitlabDataSource")).get();
+        this.githubRepository = softwareRepository.select(NamedLiteral.of("GithubDataSource")).get();
     }
     
     public List<Software> execute(Author author) {
