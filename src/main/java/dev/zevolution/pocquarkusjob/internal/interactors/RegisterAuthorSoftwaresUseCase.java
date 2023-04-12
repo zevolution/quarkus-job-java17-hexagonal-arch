@@ -5,9 +5,7 @@ import dev.zevolution.pocquarkusjob.internal.entities.Software;
 import dev.zevolution.pocquarkusjob.internal.repositories.SoftwareRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.literal.NamedLiteral;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,8 +14,8 @@ public class RegisterAuthorSoftwaresUseCase {
 
     private final SoftwareRepository mongoDBRepository;
 
-    public RegisterAuthorSoftwaresUseCase(@Any Instance<SoftwareRepository> softwareRepository) {
-        this.mongoDBRepository = softwareRepository.select(NamedLiteral.of("MongoDBDataSource")).get();
+    public RegisterAuthorSoftwaresUseCase(@Named("MongoDBDataSource") SoftwareRepository softwareRepository) {
+        this.mongoDBRepository = softwareRepository;
     }
 
     public void execute(Author author, List<Software> softwaresFromAuthor) {
